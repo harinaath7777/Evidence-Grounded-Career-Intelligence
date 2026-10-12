@@ -7,6 +7,7 @@ const chatRoutes = require("./routes/chat.routes");
 const agenticRagRoutes = require("./agentic-rag/routes/agenticRagRoutes");
 const graphRoutes = require("./routes/graph.routes");
 const simulationRoutes = require("./routes/simulation.routes");
+const connectDb = require("./db/db");
 const { errorHandler, notFound } = require("./middleware/error.middleware");
 
 const app = express();
@@ -20,6 +21,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.get("/api/health", (_req, res) => res.json({ ok: true, service: "resume-ai-api" }));
+
+// Ensure database connection before handling protected and transactional API requests
+app.use(async (req, res, next) => {
+  try {
+    await connectDb();
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
 app.use("/api/auth", authRoutes);
 app.use("/api/resumes", resumeRoutes);
 app.use("/api/chat", chatRoutes);
