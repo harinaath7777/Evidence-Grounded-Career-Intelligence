@@ -1,0 +1,14 @@
+{
+  "fields": [
+    {
+      "numDimensions": 768,
+      "path": "embedding",
+      "similarity": "cosine",
+      "type": "vector"
+    },
+    {
+      "path": "ownerId",
+      "type": "filter"
+    }
+  ]
+}
