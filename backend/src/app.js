@@ -12,7 +12,7 @@ const { errorHandler, notFound } = require("./middleware/error.middleware");
 const app = express();
 app.disable("x-powered-by");
 app.use(cors({
-  origin: process.env.CLIENT_URL || "http://localhost:5173",
+  origin: process.env.CLIENT_URL ? [process.env.CLIENT_URL, "http://localhost:5173"] : true,
   credentials: true,
 }));
 app.use(express.json({ limit: "1mb" }));
